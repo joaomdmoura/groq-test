@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "analysis_crew"
+version = "0.1.0"
+description = "analysis_crew using crewAI"
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<=3.13"
+crewai = { extras = ["tools"], version = "^0.30.11" }
+pandas = "^2.2.2"
+seaborn = "^0.13.2"
+langchain-groq = "^0.1.4"
+
+[tool.poetry.scripts]
+analysis_crew = "analysis_crew.main:run"
+train = "analysis_crew.main:train"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
