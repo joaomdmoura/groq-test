@@ -3,7 +3,6 @@ from crewai.project import CrewBase, agent, crew, task
 
 from .tools.csv_analysis_tool import CSVAnalysisTool
 from .tools.code_execution_tool import CodeExecutionTool
-from .tools.generate_markdown_report_tool import GenerateMarkdownReportTool
 
 from langchain_groq import ChatGroq
 
@@ -14,7 +13,6 @@ class AnalysisCrewCrew:
     tasks_config_path = 'config/tasks.yaml'
     csv_tool = CSVAnalysisTool()
     code_tool = CodeExecutionTool()
-    markdown_tool = GenerateMarkdownReportTool()
     llm = ChatGroq(temperature=0, model_name="llama3-70b-8192")
     # llm = ChatGroq(temperature=0, model_name="mixtral-8x7b-32768")
 
@@ -22,7 +20,7 @@ class AnalysisCrewCrew:
     def data_analyst(self) -> Agent:
         return Agent(
             config=self.agents_config['data_analyst'],
-            tools=[self.csv_tool, self.code_tool, self.markdown_tool],
+            tools=[self.csv_tool, self.code_tool],
             verbose=True,
             llm=self.llm
         )
@@ -72,6 +70,7 @@ class AnalysisCrewCrew:
     def code_review(self) -> Task:
         return Task(
             config=self.tasks_config['code_review'],
+            tools=[self.code_tool],
             agent=self.qa_analyst()
         )
 
@@ -79,8 +78,9 @@ class AnalysisCrewCrew:
     def generate_markdown_report(self) -> Task:
         return Task(
             config=self.tasks_config['generate_markdown_report'],
-            tools=[self.markdown_tool],
-            agent=self.data_analyst()
+            context=[self.advanced_data_analysis(), self.generate_charts(), self.code_review()],
+            agent=self.data_analyst(),
+            output_file='report.md'
         )
 
     @crew

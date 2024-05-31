@@ -2,42 +2,54 @@ initial_data_analysis:
   description: >
     Read the CSV file {file_path} and perform initial data analysis.
     Use the CSVAnalysisTool to return the head of the DataFrame, data types, and
-    basic statistics. Export the summary as 'initial_data_analysis.txt'.
+    basic statistics.
+    Make sure to execute simple code snippets only interacting with the csv data,
+    small snippet one at the time, so you can extract learnings from the data.
   expected_output: >
-    A summary including the head of the DataFrame, data types, and basic statistics, with no indentation errors. File path: 'initial_data_analysis.txt'.
+    A comprehensive summary including the head of the DataFrame, data types, and basic
+    statistics, formatted as a detailed report in markdown. No indentation errors.
 
 advanced_data_analysis:
   description: >
     Perform advanced data analysis on the CSV file {file_path}, including statistical
     summaries, correlations, and deriving insights.
-
     Make sure to execute simple code snippets only interacting with the csv data,
     small snippet one at the time, so you can extract learnings from the data.
-
-    Write the final results in the file as the last step, after all the analysis.
-    Export the detailed report as 'advanced_data_analysis.txt'.
+    Format the results as a detailed report in markdown.
   expected_output: >
     A detailed report with statistical summaries, correlations, and key insights
-    derived from the data, with no indentation errors. File path: 'advanced_data_analysis.txt'.
+    derived from the data, formatted in markdown with no indentation errors.
 
 generate_charts:
   description: >
     Generate interesting charts based on the CSV data analysis, file name: {file_path}.
     Create visualizations such as histograms, box plots, scatter plots, and other
-    relevant charts to illustrate key insights. Save the charts as 'charts.png'.
+    relevant charts to illustrate key insights.
+    Make sure to execute simple code snippets to create each chart,
+    one at a time, so you can ensure the charts are correctly generated.
+    Save each chart with a unique name and provide URLs for all generated images.
   expected_output: >
-    A set of charts visualizing important aspects of the data, with no indentation errors. File path: 'charts.png'.
+    A list of URLs for all generated chart images, each URL being unique.
 
 code_review:
   description: >
     Review the code and analysis performed by the data analyst and data
-    scientist to ensure it is correct, efficient, and follows best practices, file name: {file_path}. Export the review report as 'code_review.txt'.
+    scientist to ensure it is correct, efficient, and follows best practices, file name: {file_path}.
+    Execute small code snippets to validate the functionality and efficiency of the code.
+    Format the review findings as a detailed report in markdown.
   expected_output: >
     A report detailing the findings of the code review, including any suggested
-    improvements or corrections, with no indentation errors. File path: 'code_review.txt'.
+    improvements or corrections, formatted in markdown with no indentation errors.
 
 generate_markdown_report:
   description: >
-    Compile a comprehensive markdown report based on the outputs of the initial data analysis, advanced data analysis, and generated charts. Include the content of 'initial_data_analysis.txt', 'advanced_data_analysis.txt', and embed 'charts.png'.
+    Compile a comprehensive markdown report on the big car manufacturer based on the outputs of the initial
+    data analysis, advanced data analysis, and generated charts.
+    Include the content from the initial data analysis, advanced data analysis,
+    and embed the URLs of the generated charts.
+    Ensure to piece together the content step-by-step using small code snippets,
+    verifying each part of the report before moving on to the next.
+    The report should be detailed and extensive, including all relevant findings,
+    insights, and visualizations.
   expected_output: >
-    A markdown report summarizing all findings and including visualizations, saved as 'report.md'.
+    A complete and detailed markdown report summarizing all findings and including visualizations, return only the markdown with no '```'
