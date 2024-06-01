@@ -1,55 +1,64 @@
 initial_data_analysis:
   description: >
-    Read the CSV file {file_path} and perform initial data analysis.
-    Use the CSVAnalysisTool to return the head of the DataFrame, data types, and
+    Read the CSV file located at {file_path} and perform initial data analysis.
+    Use the CSVAnalysisTool to get the head of the DataFrame, data types, and
     basic statistics.
-    Make sure to execute simple code snippets only interacting with the csv data,
-    small snippet one at the time, so you can extract learnings from the data.
+    Execute simple code snippets interacting with the CSV data, one snippet at
+    a time.
+    Ensure you use the exact file path {file_path} without modifying it.
+    Look for interesting insights in the data.
   expected_output: >
-    A comprehensive summary including the head of the DataFrame, data types, and basic
-    statistics, formatted as a detailed report in markdown. No indentation errors.
+    A comprehensive report with the of the DataFrame, data types, and basic
+    statistics.
 
 advanced_data_analysis:
   description: >
-    Perform advanced data analysis on the CSV file {file_path}, including statistical
-    summaries, correlations, and deriving insights.
-    Make sure to execute simple code snippets only interacting with the csv data,
-    small snippet one at the time, so you can extract learnings from the data.
-    Format the results as a detailed report in markdown.
+    Perform advanced data analysis on the CSV file located at {file_path}.
+    Include statistical summaries, correlations, and insights.
+    Execute simple code snippets interacting with the CSV data, one snippet at
+    a time.
+    Don't plot charts.
+    Filter out non numeric columns on the needed operations.
+    Ensure you use the exact file path {file_path} without modifying it.
   expected_output: >
-    A detailed report with statistical summaries, correlations, and key insights
-    derived from the data, formatted in markdown with no indentation errors.
+    A comprehensive report with statistical summaries, correlations, and key
+    insights
 
 generate_charts:
   description: >
-    Generate interesting charts based on the CSV data analysis, file name: {file_path}.
-    Create visualizations such as histograms, box plots, scatter plots, and other
-    relevant charts to illustrate key insights.
-    Make sure to execute simple code snippets to create each chart,
-    one at a time, so you can ensure the charts are correctly generated.
+    Generate charts based on the CSV data analysis, file located at {file_path}.
+    Execute simple code snippets for each chart, one at a time.
     Save each chart with a unique name and provide URLs for all generated images.
+    Ensure you use the exact file path {file_path} without modifying it.
   expected_output: >
-    A list of URLs for all generated chart images, each URL being unique.
+    A list of unique URLs for all generated chart images.
 
-code_review:
+generate_report_plan:
   description: >
-    Review the code and analysis performed by the data analyst and data
-    scientist to ensure it is correct, efficient, and follows best practices, file name: {file_path}.
-    Execute small code snippets to validate the functionality and efficiency of the code.
-    Format the review findings as a detailed report in markdown.
-  expected_output: >
-    A report detailing the findings of the code review, including any suggested
-    improvements or corrections, formatted in markdown with no indentation errors.
+    Develop a detailed plan for compiling a markdown report on the big car
+    manufacturer using the outputs of the initial data analysis, advanced data
+    analysis, and generated charts.
 
-generate_markdown_report:
-  description: >
-    Compile a comprehensive markdown report on the big car manufacturer based on the outputs of the initial
-    data analysis, advanced data analysis, and generated charts.
-    Include the content from the initial data analysis, advanced data analysis,
-    and embed the URLs of the generated charts.
-    Ensure to piece together the content step-by-step using small code snippets,
-    verifying each part of the report before moving on to the next.
-    The report should be detailed and extensive, including all relevant findings,
-    insights, and visualizations.
+
+    The plan must be a list sections with:
+
+
+    title, full_description, charts, insights, analysis
+
+
+    Ensure the plan pieces together the content
+    step-by-step, verifying each part before moving on.
   expected_output: >
-    A complete and detailed markdown report summarizing all findings and including visualizations, return only the markdown with no '```'
+    A comprehensive plan for the markdown report, outlining sections, content,
+    and structure.
+
+write_markdown_report:
+  description: >
+    Write a markdown report on the big car manufacturer using the plan developed
+    in the previous task.
+    Ensure the report is well-structured, coherent, and includes all required
+    sections.
+    Use the provided plan to guide the report writing process.
+  expected_output: >
+    A complete markdown report on the big car manufacturer, following the
+    structure and content outlined in the plan without the "```" code blocks.

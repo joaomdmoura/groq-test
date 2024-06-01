@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys
-from analysis_crew.crew import AnalysisCrewCrew
+from analysis_crew.crew import AnalysisCrew
 
 
 def run():
@@ -8,15 +8,4 @@ def run():
     inputs = {
         'file_path': 'src/analysis_crew/files/tesla.csv'
     }
-    AnalysisCrewCrew().crew().kickoff(inputs=inputs)
-
-
-def train():
-    """
-    Train the crew for a given number of iterations.
-    """
-    try:
-        AnalysisCrewCrew().crew().train(n_iterations=int(sys.argv[1]))
-
-    except Exception as e:
-        raise Exception(f"An error occurred while training the crew: {e}")
+    AnalysisCrew().crew().kickoff(inputs=inputs)

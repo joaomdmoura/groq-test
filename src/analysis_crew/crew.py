@@ -1,14 +1,19 @@
+from typing import List, Optional
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from pydantic import BaseModel, Field
 
 from .tools.csv_analysis_tool import CSVAnalysisTool
 from .tools.code_execution_tool import CodeExecutionTool
 
 from langchain_groq import ChatGroq
 
+class Charts(BaseModel):
+    charts_images: List[str] = Field(..., title="Charts")
+
 @CrewBase
-class AnalysisCrewCrew:
-    """AnalysisCrew crew"""
+class AnalysisCrew:
+    """Analysis crew"""
     agents_config_path = 'config/agents.yaml'
     tasks_config_path = 'config/tasks.yaml'
     csv_tool = CSVAnalysisTool()
@@ -22,6 +27,7 @@ class AnalysisCrewCrew:
             config=self.agents_config['data_analyst'],
             tools=[self.csv_tool, self.code_tool],
             verbose=True,
+            allow_delegation=False,
             llm=self.llm
         )
 
@@ -31,14 +37,16 @@ class AnalysisCrewCrew:
             config=self.agents_config['data_scientist'],
             tools=[self.csv_tool, self.code_tool],
             verbose=True,
+            allow_delegation=False,
             llm=self.llm
         )
 
     @agent
-    def qa_analyst(self) -> Agent:
+    def content_writer(self) -> Agent:
         return Agent(
-            config=self.agents_config['qa_analyst'],
+            config=self.agents_config['content_writer'],
             verbose=True,
+            allow_delegation=False,
             llm=self.llm
         )
 
@@ -63,23 +71,23 @@ class AnalysisCrewCrew:
         return Task(
             config=self.tasks_config['generate_charts'],
             tools=[self.csv_tool, self.code_tool],
-            agent=self.data_analyst()
-        )
-
-    @task
-    def code_review(self) -> Task:
-        return Task(
-            config=self.tasks_config['code_review'],
-            tools=[self.code_tool],
-            agent=self.qa_analyst()
+            agent=self.data_analyst(),
+            output_pydantic=Charts
         )
 
     @task
     def generate_markdown_report(self) -> Task:
         return Task(
-            config=self.tasks_config['generate_markdown_report'],
-            context=[self.advanced_data_analysis(), self.generate_charts(), self.code_review()],
-            agent=self.data_analyst(),
+            config=self.tasks_config['generate_report_plan'],
+            context=[self.initial_data_analysis(), self.advanced_data_analysis(), self.generate_charts()],
+            agent=self.data_analyst()
+        )
+
+    @task
+    def write_markdown_report(self) -> Task:
+        return Task(
+            config=self.tasks_config['write_markdown_report'],
+            agent=self.content_writer(),
             output_file='report.md'
         )
 
@@ -87,8 +95,8 @@ class AnalysisCrewCrew:
     def crew(self) -> Crew:
         """Creates the AnalysisCrew crew"""
         return Crew(
-            agents=self.agents,  # Automatically created by the @agent decorator
-            tasks=self.tasks,  # Automatically created by the @task decorator
+            agents=self.agents,
+            tasks=self.tasks,
             process=Process.sequential,
             verbose=2,
         )

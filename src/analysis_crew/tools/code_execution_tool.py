@@ -6,6 +6,7 @@ class CodeExecutionTool(BaseTool):
 
     def _run(self, code: str) -> str:
         try:
+            # Use a limited dictionary for locals() to avoid unwanted access
             local_vars = {}
             exec(code, {}, local_vars)
             return str(local_vars)
