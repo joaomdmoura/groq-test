@@ -59,6 +59,8 @@ write_markdown_report:
     Ensure the report is well-structured, coherent, and includes all required
     sections.
     Use the provided plan to guide the report writing process.
+    Don't forget to include the generated charts and visualizations in the
+    report, but only if there is any, don't come up with new images.
   expected_output: >
     A complete markdown report on the big car manufacturer, following the
     structure and content outlined in the plan without the "```" code blocks.
