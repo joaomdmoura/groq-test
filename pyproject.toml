@@ -10,6 +10,7 @@ crewai = { extras = ["tools"], version = "^0.30.11" }
 pandas = "^2.2.2"
 seaborn = "^0.13.2"
 langchain-groq = "^0.1.4"
+orjson = "3.10.4"
 
 [tool.poetry.scripts]
 analysis_crew = "analysis_crew.main:run"

@@ -33,34 +33,47 @@ generate_charts:
   expected_output: >
     A list of unique URLs for all generated chart images.
 
-generate_report_plan:
+research_company:
   description: >
-    Develop a detailed plan for compiling a markdown report on the big car
-    manufacturer using the outputs of the initial data analysis, advanced data
-    analysis, and generated charts.
-
-
-    The plan must be a list sections with:
-
-
-    title, full_description, charts, insights, analysis
-
-
-    Ensure the plan pieces together the content
-    step-by-step, verifying each part before moving on.
+    Conduct in-depth research on Tesla and the provided data
+    to develop a comprehensive plan for the markdown report.
+    Use the plan developed in the previous task to guide your research.
+    Look for additional insights and information that could be included in the
+    report.
   expected_output: >
-    A comprehensive plan for the markdown report, outlining sections, content,
-    and structure.
+    A detailed research report on Tesla, including additional
+    insights and information, and the original source where the information
+    was found with the website link.
+
+plan_report:
+  description: >
+    Plan a report about all the findings from the analysis you are provided with
+    about Tesla.
+    Use all the information and data you are being provided with to create a
+    comprehensive and well-organized report plan.
+  expected_output: >
+    A comprehensive report plan, outlining sections, content, and structure.
+    Plan individual sections, each with a descriptive title, all data necessary
+    to be in there, chart images paths that should be included, and a long thoughtful
+    draft of the section and why it matters.
 
 write_markdown_report:
   description: >
-    Write a markdown report on the big car manufacturer using the plan developed
-    in the previous task.
-    Ensure the report is well-structured, coherent, and includes all required
-    sections.
+    Write a markdown report section on Tesla using the plan bellow.
+    Ensure the report is well-structured, coherent, and includes all relevant data.
     Use the provided plan to guide the report writing process.
     Don't forget to include the generated charts and visualizations in the
     report, but only if there is any, don't come up with new images.
+    You must only use the images provided in the plan, if there are any. NEVER use non-reference images.
+
+
+    Syntax for adding images to the markdown report: ![alt text](Isolated.png "Title")
+
+    When you have all the necessary information to write just give your final answer.
+
+
+    Plan:
+    {plan}
   expected_output: >
-    A complete markdown report on the big car manufacturer, following the
+    A complete markdown report on tesla, following the
     structure and content outlined in the plan without the "```" code blocks.

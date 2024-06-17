@@ -1,6 +1,7 @@
 from typing import List, Optional
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import SerperDevTool
 from pydantic import BaseModel, Field
 
 from .tools.csv_analysis_tool import CSVAnalysisTool
@@ -9,17 +10,28 @@ from .tools.code_execution_tool import CodeExecutionTool
 from langchain_groq import ChatGroq
 
 class Charts(BaseModel):
-    charts_images: List[str] = Field(..., title="Charts")
+    charts_images: List[str] = Field(..., title="list of charts images paths")
+
+class ReportSection(BaseModel):
+    title: str = Field(..., title="title of the section")
+    data: str = Field(..., title="data of the section")
+    charts: List[str] = Field(..., title="list of chart images paths")
+    long_draft: str = Field(..., title="long draft of the section")
+    why_it_matters: str = Field(..., title="why it matters")
+    references: List[str] = Field(..., title="URL and information about the references for the content")
+
+class Report(BaseModel):
+    sections: List[ReportSection] = Field(..., title="list of sections")
 
 @CrewBase
 class AnalysisCrew:
     """Analysis crew"""
-    agents_config_path = 'config/agents.yaml'
-    tasks_config_path = 'config/tasks.yaml'
+    agents_config = 'config/agents.yaml'
+    tasks_config = 'config/tasks.yaml'
     csv_tool = CSVAnalysisTool()
     code_tool = CodeExecutionTool()
+    search_tool = SerperDevTool()
     llm = ChatGroq(temperature=0, model_name="llama3-70b-8192")
-    # llm = ChatGroq(temperature=0, model_name="mixtral-8x7b-32768")
 
     @agent
     def data_analyst(self) -> Agent:
@@ -42,9 +54,19 @@ class AnalysisCrew:
         )
 
     @agent
-    def content_writer(self) -> Agent:
+    def researcher(self) -> Agent:
         return Agent(
-            config=self.agents_config['content_writer'],
+            config=self.agents_config['researcher'],
+            tools=[self.search_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.llm
+        )
+
+    @agent
+    def content_planner(self) -> Agent:
+        return Agent(
+            config=self.agents_config['content_planner'],
             verbose=True,
             allow_delegation=False,
             llm=self.llm
@@ -76,19 +98,25 @@ class AnalysisCrew:
         )
 
     @task
-    def generate_markdown_report(self) -> Task:
+    def research_company(self) -> Task:
         return Task(
-            config=self.tasks_config['generate_report_plan'],
-            context=[self.initial_data_analysis(), self.advanced_data_analysis(), self.generate_charts()],
-            agent=self.data_analyst()
+            config=self.tasks_config['research_company'],
+            tools=[self.search_tool],
+            agent=self.researcher()
         )
 
     @task
-    def write_markdown_report(self) -> Task:
+    def plan_report(self) -> Task:
         return Task(
-            config=self.tasks_config['write_markdown_report'],
-            agent=self.content_writer(),
-            output_file='report.md'
+            config=self.tasks_config['plan_report'],
+            context=[
+                self.initial_data_analysis(),
+                self.advanced_data_analysis(),
+                self.generate_charts(),
+                self.research_company()
+            ],
+            agent=self.content_planner(),
+            output_pydantic=Report
         )
 
     @crew
